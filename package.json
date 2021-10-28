@@ -1,0 +1,20 @@
+{
+  "name": "kepler-graph",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "codegen": "graph codegen subgraph.yaml",
+    "build": "graph build subgraph.yaml",
+    "create": "graph create --node http://localhost:8020/ subgraph/kepler",
+    "remove": "graph remove --node http://localhost:8020/ subgraph/kepler",
+    "deploy": "graph build strategy.yaml && graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 subgraph/kepler subgraph.yaml"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.22.0",
+    "@graphprotocol/graph-ts": "0.22.0",
+    "mustache": "^4.2.0"
+  }
+}

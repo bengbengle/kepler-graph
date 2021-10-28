@@ -1,0 +1,122 @@
+type Crycle @entity {
+  id: ID!
+  creator: Bytes!
+  title: String!
+  mainfest: String!
+  telegram: String!
+  userNum: BigInt!
+  createAt: BigInt!
+  amount: BigInt!
+}
+
+type CrycleUser @entity {
+  id: ID!
+  user: Bytes!
+  crycle: Crycle!
+  joinAt: BigInt!
+}
+
+type VoteInfo @entity {
+  id: ID!
+  createAt: BigInt!
+  beginAt: BigInt! 
+  voteAt: BigInt!
+  finishAt: BigInt!
+  reward: BigInt!
+  voteNum: BigInt!
+}
+
+type VoteUserInfo @entity {
+  id: ID!
+  voteInfo: VoteInfo!
+  user: CrycleUser!
+  crycle: Crycle!
+  voteNum: BigInt!
+  lastVoteAt: BigInt!
+}
+
+type VoteCrycleInfo @entity {
+  id: ID!
+  voteInfo: VoteInfo!
+  crycle: Crycle!
+  voteNum: BigInt!
+  lastVoteAt: BigInt!
+}
+
+type Vote @entity {
+  id: ID!
+  voteInfo: VoteInfo!
+  user: CrycleUser!
+  crycle: Crycle!
+  voteNum: BigInt!
+  voteAt: BigInt!
+}
+
+type User @entity {
+  id: ID!
+  inviter: User
+  registeAt: BigInt!
+  inviteNum: BigInt!
+}
+
+type Token @entity {
+  id: ID!
+  name: String
+  symbol: String!
+  decimals: BigInt!
+}
+
+type Pair @entity {
+  id: ID!
+  token0: Token! 
+  token1: Token!
+  reserve0: BigInt!
+  reserve1: BigInt!
+  totalSupply: BigInt!
+  createAt: BigInt!
+}
+
+type LockOrder @entity {
+  id: ID!
+  lockId: BigInt!
+  user: User!
+  pair: Pair!
+  amount: BigInt!
+  shares: BigInt!
+  lockType: BigInt!
+  lockAt: BigInt!
+  expireAt: BigInt!
+  unlocked: Boolean!
+}
+
+type LockInfo @entity {
+  id: ID!
+  user: User!
+  pair: Pair!
+  lockAmount: BigInt!
+  lockShares: BigInt!
+  inviteLockAmount: BigInt!
+  inviteLockShares: BigInt!
+}
+
+type FeeDispatch @entity {
+  id: ID!
+  destination: Bytes!
+  token: Token!
+  amount: BigInt!
+  farmType: BigInt!
+  createAt: BigInt!
+}
+
+type SwapOrder @entity {
+  id: ID!
+  pair: Pair!
+  fromToken: Token!
+  toToken: Token!
+  fromAddress: Bytes!
+  toAddress: Bytes!
+  fromAmount: BigInt!
+  toAmount: BigInt!
+  transactionHash: Bytes!
+  createAt: BigInt!
+}

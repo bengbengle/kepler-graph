@@ -1,0 +1,151 @@
+specVersion: 0.0.2
+schema:
+  file: ./strategy.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Crycle
+    network: bsctest
+    source:
+      address: '0xeF8663c102293788DEf94c830D5De03f4979b412'
+      startBlock: 11456400 
+      abi: Crycle
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Crycle
+        - CrycleUser
+      abis:
+        - name: Crycle
+          file: ./abis/Crycle.json
+      eventHandlers:
+        - event: NewCrycle(address,string,string,string,uint256)
+          handler: handleNewCrycle
+        - event: NewTitle(address,string,string,uint256)
+          handler: handleNewTitle
+        - event: NewMainfest(address,string,string,uint256)
+          handler: handleNewMainfest
+        - event: NewTelegram(address,string,string,uint256)
+          handler: handleNewTelegram
+        - event: NewUser(address,address,uint256,uint256)
+          handler: handleNewUser
+        - event: NewVoteInfo(uint256,uint256,uint256,uint256,uint256)
+          handler: handleNewVoteInfo
+        - event: NewVote(uint256,address,address,uint256,uint256,uint256)
+          handler: handleNewVote
+      file: ./handler/crycleHandler.ts
+  - kind: ethereum/contract
+    name: User
+    network: bsctest
+    source:
+      address: '0x6040E5b2a36AD4D7b40f6492841C42e1f385b7E6'
+      startBlock: 11456400 
+      abi: User
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - NewUser
+      abis:
+        - name: User
+          file: ./abis/User.json
+      eventHandlers:
+        - event: NewUser(address,address,uint256)
+          handler: handleNewUser
+      file: ./handler/userHandler.ts
+  - kind: ethereum/contract
+    name: MasterChef
+    network: bsctest
+    source:
+      address: '0x7Fea74517787847225507Ac04997382EcC69a108'
+      startBlock: 11456400 
+      abi: MasterChef
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Deposit
+        - Withdraw
+      abis:
+        - name: MasterChef
+          file: ./abis/MasterChef.json
+      eventHandlers:
+        - event: Deposit(indexed address,indexed address,indexed address,uint256,uint256,uint256,uint256)
+          handler: handleDeposit
+        - event: Withdraw(indexed address,indexed address,indexed address,uint256,uint256,uint256,uint256)
+          handler: handleWithdraw
+      file: ./handler/masterChefHandler.ts
+  - kind: ethereum/contract
+    name: KeplerFactory
+    network: bsctest
+    source:
+      address: '0x4E6B718b919Ea41C50B7148ad33b271c607CCC0b'
+      startBlock: 11456400 
+      abi: KeplerFactory
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - TokenInfo
+        - PairCreated
+      abis:
+        - name: KeplerFactory
+          file: ./abis/KeplerFactory.json
+      eventHandlers:
+        - event: TokenInfo(address,string,string,uint256)
+          handler: handleTokenInfo
+        - event: PairCreated(indexed address,indexed address,address,uint256)
+          handler: handlePairCreated
+      file: ./handler/keplerFactoryHandler.ts
+  - kind: ethereum/contract
+    name: FeeDispatcher
+    network: bsctest
+    source:
+            #address: '0xD59d7A053eA90cA4dc1920407a7a45124A9F2B47'
+      startBlock: 11456400 
+      abi: FeeDispatcher
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - TransferFeeFarm
+      abis:
+        - name: FeeDispatcher
+          file: ./abis/FeeDispatcher.json
+      eventHandlers:
+        - event: TransferFeeFarm(address,address,uint256,uint256)
+          handler: handleTransferFeeFarm
+      file: ./handler/feeDispatcherHandler.ts
+templates:
+  - kind: ethereum/contract
+    name: KeplerPair
+    network: bsctest
+    source:
+      abi: KeplerPair
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Mint
+        - Burn
+        - Swap
+        - Sync
+      abis:
+        - name: KeplerPair
+          file: ./abis/KeplerPair.json
+      eventHandlers:
+        - event: Mint(indexed address,uint256,uint256,uint256,uint256,uint256,uint256)
+          handler: handleMint
+        - event: Burn(indexed address,uint256,uint256,indexed address,uint256,uint256,uint256,uint256)
+          handler: handleBurn
+        - event: Swap(indexed address,uint256,uint256,uint256,uint256,indexed address) 
+          handler: handleSwap
+        - event: Sync(uint112,uint112)
+          handler: handleSync
+      file: ./handler/keplerPairHandler.ts
